@@ -13,7 +13,7 @@ movies['title_lower'] = movies['title'].str.lower()
 
 print("✅ Data loaded successfully")
 
-API_KEY = "36ce21caa51dff47e35725fffdee3012"  # 🔴 replace this
+API_KEY = "------------------------------------"  # 🔴 replace this
 
 # Poster fetch
 def fetch_poster(movie_name):
