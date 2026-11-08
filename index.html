@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Movie Recommender</title>
+<style>
+body { background:black; color:white; text-align:center; font-family:Arial;}
+input { padding:10px; width:300px;}
+button { padding:10px; margin:5px; background:red; color:white;}
+img { width:150px; }
+</style>
+</head>
+
+<body>
+
+<h1>🎬 Movie Recommendation System</h1>
+<p>Try movies like: Avatar, Titanic, Batman, Spider-Man</p>
+
+<input id="movie" placeholder="Enter movie name">
+<button onclick="getRec()">Recommend</button>
+<button onclick="getLatest()">Latest Movies</button>
+
+<div id="results"></div>
+<div id="latest"></div>
+
+<script>
+function getRec(){
+ let movie = document.getElementById("movie").value;
+
+ fetch("/recommend",{
+  method:"POST",
+  headers:{"Content-Type":"application/json"},
+  body:JSON.stringify({movie:movie})
+ })
+ .then(res=>res.json())
+ .then(data=>{
+  let output="<h2>Recommendations</h2>";
+  for(let i=0;i<data.names.length;i++){
+   output+=`<div><h3>${data.names[i]}</h3><img src="${data.posters[i]}"></div>`;
+  }
+  document.getElementById("results").innerHTML=output;
+ });
+}
+
+function getLatest(){
+ fetch("/latest")
+ .then(res=>res.json())
+ .then(data=>{
+  let output="<h2>Latest Movies</h2>";
+  data.forEach(m=>{
+   output+=`<div><h3>${m.title}</h3><img src="${m.poster}"></div>`;
+  });
+  document.getElementById("latest").innerHTML=output;
+ });
+}
+</script>
+
+</body>
+</html>
